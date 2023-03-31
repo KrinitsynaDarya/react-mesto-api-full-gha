@@ -1,0 +1,17 @@
+.popup__content {
+  padding: 0;
+  /* 3. Убрано фиксированное значение верхнего отступа попапа */
+  max-width: 430px;
+  min-width: 282px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  height: auto;
+  margin: auto;
+}
+
+@media screen and (max-width: 527px) {
+  .popup__content {
+    width: calc(100% - 19px * 2);
+  }
+}

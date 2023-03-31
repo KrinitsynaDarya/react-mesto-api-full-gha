@@ -1,0 +1,15 @@
+.header {
+  padding: 45px 0 41px 0;
+  border-bottom: 1px rgba(84, 84, 84, 0.7) solid; /* 2. добавлена прозрачность через rgba*/
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: baseline;
+}
+
+@media screen and (max-width: 424px) {
+  .header {
+    padding: 28px 0 31.6px 27px;
+  }
+}

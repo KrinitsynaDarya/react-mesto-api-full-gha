@@ -1,0 +1,15 @@
+.elements {
+    padding: 50px 0 0;
+    margin: 0;
+    display: grid;
+    justify-content: center;
+    grid-template-columns: repeat(auto-fill, minmax(282px, 1fr));
+    gap: 20px 17px;
+    grid-auto-flow: row;
+}
+
+@media screen and (max-width: 767px) {
+    .elements {
+        padding: 36px 0 0;
+    }
+}

@@ -1,0 +1,24 @@
+.profile__info {
+    max-width: calc(100% - 320px);
+    padding: 22px 0 0 30px;
+    margin: 0;
+    /* display: grid;
+    gap: 0px 18px;
+    align-items: baseline;
+    grid-template-columns: 1fr max-content;
+    grid-template-areas:
+        "profile__name""profile__edit-button"
+        "profile__about""."*/
+}
+
+@media screen and (max-width: 767px) {
+    .profile__info {
+        max-width: 100%;
+        padding: 26px 0 36px;
+        /*display: grid;
+        gap: 0px 10px;
+        grid-template-areas:
+        "profile__wrapper"
+        "profile__about";*/
+    }
+}
