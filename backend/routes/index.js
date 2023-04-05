@@ -1,7 +1,10 @@
 const router = require('express').Router(); // создали роутер
 const auth = require('../middlewares/auth');
+const cors = require('../middlewares/cors');
 
 const NotFoundError = require('../errors/not-found-err');
+
+router.use(cors);
 
 router.use('/', require('./auth'));
 
