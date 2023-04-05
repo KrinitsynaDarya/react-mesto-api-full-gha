@@ -13,7 +13,9 @@ class Api {
   }
 
   getInitialCards() {
-    return fetch(`${this._baseUrl}/cards`, { headers: this._headers }).then(
+    return fetch(`${this._baseUrl}/cards`, { headers: this._headers,
+      credentials: 'include', // теперь куки посылаются вместе с запросом
+     }).then(
       (res) => this._checkResponse(res)
     );
   }
@@ -26,6 +28,7 @@ class Api {
         name: cardData.name,
         link: cardData.link,
       }),
+      credentials: 'include', // теперь куки посылаются вместе с запросом
     }).then((res) => this._checkResponse(res));
   }
 
@@ -33,6 +36,7 @@ class Api {
     return fetch(`${this._baseUrl}/cards/${cardId}`, {
       method: "DELETE",
       headers: this._headers,
+      credentials: 'include', // теперь куки посылаются вместе с запросом
     }).then((res) => this._checkResponse(res));
   }
 
@@ -40,6 +44,7 @@ class Api {
     return fetch(`${this._baseUrl}/cards/${cardId}/likes`, {
       method: "PUT",
       headers: this._headers,
+      credentials: 'include', // теперь куки посылаются вместе с запросом
     }).then((res) => this._checkResponse(res));
   }
 
@@ -47,6 +52,7 @@ class Api {
     return fetch(`${this._baseUrl}/cards/${cardId}/likes`, {
       method: "DELETE",
       headers: this._headers,
+      credentials: 'include', // теперь куки посылаются вместе с запросом
     }).then((res) => this._checkResponse(res));
   }
 
@@ -61,6 +67,7 @@ class Api {
   getUserInfo() {
     return fetch(`${this._baseUrl}/users/me`, {
       headers: this._headers,
+      credentials: 'include', // теперь куки посылаются вместе с запросом
     }).then((res) => this._checkResponse(res));
   }
 
@@ -72,6 +79,7 @@ class Api {
         name: userData.name,
         about: userData.about,
       }),
+      credentials: 'include', // теперь куки посылаются вместе с запросом
     }).then((res) => this._checkResponse(res));
   }
 
@@ -82,6 +90,7 @@ class Api {
       body: JSON.stringify({
         avatar: userData.avatar,
       }),
+      credentials: 'include', // теперь куки посылаются вместе с запросом
     }).then((res) => this._checkResponse(res));
   }
 }
