@@ -98,7 +98,6 @@ class Api {
 const api = new Api({
   baseUrl: "http://api.mestoapp.krinitsyna.nomoredomains.work",
   headers: {
-    authorization: "258a83b0-9c97-4384-ab74-1331eb2f1b83",
     "Content-Type": "application/json",
   },
 });

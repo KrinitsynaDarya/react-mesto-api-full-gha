@@ -175,7 +175,6 @@ function App() {
     if (jwt) {
       // проверим токен
       auth.getContent(jwt).then((res) => {
-        console.log(res.email);
         if (res) {
           // авторизуем пользователя
           setLoggedIn(true);
