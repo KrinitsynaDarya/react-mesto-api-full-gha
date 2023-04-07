@@ -130,6 +130,6 @@ module.exports.cookieCheck = (req, res, next) => {
     next(new UnauthorizedError('Необходима авторизация'));
   }
 
-  return next(); // пропускаем запрос дальше
+ // return next(); // пропускаем запрос дальше
 
 };
