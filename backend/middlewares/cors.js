@@ -29,9 +29,9 @@ module.exports = (req, res, next) => {
 
   }
       // завершаем обработку запроса и возвращаем результат клиенту
-      return res.end();
+     // return res.end();
 
   }
 
-   next();
+   return next();
 };
