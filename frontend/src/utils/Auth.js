@@ -35,12 +35,11 @@ export const authorize = (email, password) => {
 };
 
 export const getContent = () => {
-  return fetch(`${BASE_URL}/users/me`, {
+  return fetch(`${BASE_URL}/check`, {
     method: "GET",
     headers: {
       // Accept: "application/json",
       "Content-Type": "application/json",
-    // Authorization: `Bearer ${token}`
     },
     credentials: 'include', 
   })

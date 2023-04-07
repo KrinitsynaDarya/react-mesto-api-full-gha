@@ -28,6 +28,6 @@ router.get('/signout', (req, res) => {
   res.clearCookie('jwt').send({ message: 'Выход' });
 });
 
-router.post('/check', cookieCheck);
+router.get('/check', cookieCheck);
 
 module.exports = router;

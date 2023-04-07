@@ -175,9 +175,9 @@ function App() {
     // if (jwt) {
       // проверим токен
       auth.getContent(/* jwt */).then((res) => {
-        if (res.status === 200) {
+        if (res) {
           // авторизуем пользователя
-          console.log(res.status);
+          console.log(res.data);
           setLoggedIn(true);
           
           setUserEmail(res.data.email);
