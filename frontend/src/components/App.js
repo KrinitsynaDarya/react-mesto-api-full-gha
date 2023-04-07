@@ -175,12 +175,21 @@ function App() {
     // if (jwt) {
       // проверим токен
       auth.getContent(/* jwt */).then((res) => {
-        if (res) {
+        console.log(res);
+        if (res.authorized) {
           // авторизуем пользователя
-          console.log(res.data);
-          setLoggedIn(true);
-          
-          setUserEmail(res.data.email);
+          setLoggedIn(true);   
+          console.log(res);
+          api.getUserInfo()
+          .then((userData) => {
+            console.log(userData);
+            setUserEmail(userData.email);
+          })
+          .catch((err) => {
+            console.log(`Ошибка: ${err}`);
+          });
+
+          //setUserEmail(res.data.email);
           navigate("/", { replace: true });
         }
       });
