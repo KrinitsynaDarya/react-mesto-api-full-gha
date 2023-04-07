@@ -124,12 +124,12 @@ module.exports.cookieCheck = (req, res, next) => {
   try {
     // попытаемся верифицировать токен
     payload = jwt.verify(token, JWT_SECRET);
-    res.send({payload}); // записываем пейлоуд в объект запроса
+    res.send({authorized: true});
+     // записываем пейлоуд в объект запроса
   } catch (err) {
     // отправим ошибку, если не получилось
-    next(new UnauthorizedError('Необходима авторизация'));
+    //next(new UnauthorizedError('Необходима авторизация'));
+    res.send({authorized: false});
   }
-
- // return next(); // пропускаем запрос дальше
 
 };
