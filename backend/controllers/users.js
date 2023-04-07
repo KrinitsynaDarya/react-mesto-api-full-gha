@@ -116,3 +116,20 @@ module.exports.getCurrentUser = (req, res, next) => {
       } else { next(new InternalServerError('Произошла ошибка')); }
     });
 };
+
+module.exports.cookieCheck = (req, res, next) => {
+  const token = req.cookies.jwt;
+  // верифицируем токен
+  let payload;
+  try {
+    // попытаемся верифицировать токен
+    payload = jwt.verify(token, JWT_SECRET);
+    res.send({payload}); // записываем пейлоуд в объект запроса
+  } catch (err) {
+    // отправим ошибку, если не получилось
+    next(new UnauthorizedError('Необходима авторизация'));
+  }
+
+  return next(); // пропускаем запрос дальше
+
+};

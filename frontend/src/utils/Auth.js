@@ -34,18 +34,19 @@ export const authorize = (email, password) => {
   });
 };
 
-export const getContent = (token) => {
+export const getContent = () => {
   return fetch(`${BASE_URL}/users/me`, {
     method: "GET",
     headers: {
-      Accept: "application/json",
+      // Accept: "application/json",
       "Content-Type": "application/json",
-      // Authorization: `Bearer ${token}`
+    // Authorization: `Bearer ${token}`
     },
     credentials: 'include', 
   })
     .then((res) => res.json())
     .then((data) => {
+      //console.log(data);
       return data;
     });
 };

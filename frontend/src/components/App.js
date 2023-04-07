@@ -171,18 +171,20 @@ function App() {
   function tokenCheck() {
     // если у пользователя есть токен в localStorage,
     // эта функция проверит валидность токена
-    const jwt = localStorage.getItem("jwt");
-    if (jwt) {
+    // const jwt = localStorage.getItem("jwt");
+    // if (jwt) {
       // проверим токен
-      auth.getContent(jwt).then((res) => {
-        if (res) {
+      auth.getContent(/* jwt */).then((res) => {
+        if (res.status === 200) {
           // авторизуем пользователя
+          console.log(res.status);
           setLoggedIn(true);
+          
           setUserEmail(res.data.email);
           navigate("/", { replace: true });
         }
       });
-    }
+    // }
   }
 
   function handleRegister(email, password) {
@@ -206,7 +208,8 @@ function App() {
       .authorize(email, password)
       .then((data) => {
         if (data.token) {
-          localStorage.setItem("jwt", data.token);
+          // localStorage.setItem("jwt", data.token);
+          console.log(data.token);
           setLoggedIn(true);
           setUserEmail(email);
           navigate("/", { replace: true });
@@ -219,7 +222,7 @@ function App() {
   }
 
   function handleLogout() {
-    localStorage.removeItem("jwt");
+    // localStorage.removeItem("jwt");
     setLoggedIn(false);
   }
 

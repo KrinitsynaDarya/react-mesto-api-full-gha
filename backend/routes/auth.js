@@ -3,6 +3,7 @@ const { Joi, celebrate } = require('celebrate');
 const {
   login,
   createUser,
+  cookieCheck
 } = require('../controllers/users');
 const { regExUrl } = require('../utils/constants');
 
@@ -12,6 +13,7 @@ router.post('/signin', celebrate({
     password: Joi.string().required(),
   }),
 }), login);
+
 router.post('/signup', celebrate({
   body: Joi.object().keys({
     email: Joi.string().required().email(),
@@ -21,7 +23,11 @@ router.post('/signup', celebrate({
     avatar: Joi.string().pattern(regExUrl),
   }),
 }), createUser);
+
 router.get('/signout', (req, res) => {
   res.clearCookie('jwt').send({ message: 'Выход' });
 });
+
+router.post('/check', cookieCheck);
+
 module.exports = router;
