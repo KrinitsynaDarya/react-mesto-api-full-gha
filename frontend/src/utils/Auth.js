@@ -44,8 +44,8 @@ export const getContent = () => {
     credentials: 'include', 
   })
     .then((res) => res.json())
-    .then((data) => {
+    /*.then((data) => {
       //console.log(data);
       return data;
-    });
+    });*/
 };
