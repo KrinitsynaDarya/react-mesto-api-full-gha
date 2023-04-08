@@ -123,7 +123,6 @@ module.exports.cookieCheck = (req, res, next) => {
   let payload;
   try {
     // попытаемся верифицировать токен
-    console.log('back '+token);
     payload = jwt.verify(token, JWT_SECRET);
     res.send({authorized: true});
      // записываем пейлоуд в объект запроса
