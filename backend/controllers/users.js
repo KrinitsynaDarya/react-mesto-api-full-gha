@@ -139,7 +139,7 @@ module.exports.cookieCheck = (req, res, next) => {
     }
     const token = cookie.jwt;
     try {
-      jwt.verify(token, NODE_ENV === 'production' ? JWT_SECRET : 'dev-secret');
+      jwt.verify(token, JWT_SECRET);
       res.send({ authorized: true });
     } catch (err) {
       res.send({ authorized: false });
