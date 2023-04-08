@@ -1,6 +1,8 @@
 const router = require('express').Router(); // создали роутер
 const auth = require('../middlewares/auth');
-
+const {
+  cookieCheck
+} = require('../controllers/users');
 const NotFoundError = require('../errors/not-found-err');
 
 router.use('/', require('./auth'));

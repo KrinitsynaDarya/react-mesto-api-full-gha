@@ -3,7 +3,6 @@ const { Joi, celebrate } = require('celebrate');
 const {
   login,
   createUser,
-  cookieCheck
 } = require('../controllers/users');
 const { regExUrl } = require('../utils/constants');
 
