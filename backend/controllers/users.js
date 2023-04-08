@@ -23,7 +23,7 @@ module.exports.login = (req, res, next) => {
           // token - наш JWT токен, который мы отправляем
           maxAge: 3600 * 24 * 7,
           httpOnly: true,
-          sameSite: true,
+          sameSite: 'none', secure: true
         })
         .send({ token });
     })
