@@ -135,7 +135,7 @@ module.exports.cookieCheck = (req, res, next) => {
 
     const cookie = req.cookies;
     if (!cookie) {
-      throw new UnauthorizedError('Необходима авторизация');
+      throw new UnauthorizedError('Необходима авторизация cookie');
     }
     const token = cookie.jwt;
     try {
