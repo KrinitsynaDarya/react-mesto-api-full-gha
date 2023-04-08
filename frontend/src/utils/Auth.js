@@ -8,7 +8,7 @@ export const register = (email, password) => {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({ email, password }),
-    credentials: 'same-origin', // теперь куки посылаются вместе с запросом
+    credentials: 'include', // теперь куки посылаются вместе с запросом
   }).then((response) => {
     if (response.ok) {
       return response.json();
@@ -25,7 +25,7 @@ export const authorize = (email, password) => {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({ password, email }),
-    credentials: 'same-origin', // теперь куки посылаются вместе с запросом
+    credentials: 'include', // теперь куки посылаются вместе с запросом
   }).then((response) => {
     if (response.ok) {
       return response.json();
@@ -41,7 +41,7 @@ export const authorize = (email, password) => {
       // Accept: "application/json",
       "Content-Type": "application/json",
     },
-    credentials: 'same-origin', 
+    credentials: 'include', 
   })
     .then((res) => res.json())
     /*.then((data) => {
@@ -56,7 +56,7 @@ export const getContent = () => {
       headers: {
           "Content-Type": "application/json",
       },
-      credentials: 'same-origin',
+      credentials: 'include',
   })
     .then(res => {if (res.ok) {
       return(res.json());
