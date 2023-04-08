@@ -11,10 +11,11 @@ module.exports = (req, res, next) => {
   let payload;
   try {
     // попытаемся верифицировать токен
+    comsole.log(req.cookies);
     payload = jwt.verify(token, JWT_SECRET);
   } catch (err) {
     // отправим ошибку, если не получилось
-    next(new UnauthorizedError('Необходима авторизация auth'+req.cookies));
+    next(new UnauthorizedError('Необходима авторизация auth'));
   }
 
   req.user = payload; // записываем пейлоуд в объект запроса
