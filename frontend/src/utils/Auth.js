@@ -34,7 +34,7 @@ export const authorize = (email, password) => {
   });
 };
 
-export const getContent = () => {
+/*export const getContent = () => {
   return fetch(`${BASE_URL}/check`, {
     method: "GET",
     headers: {
@@ -47,5 +47,23 @@ export const getContent = () => {
     /*.then((data) => {
       //console.log(data);
       return data;
-    });*/
+    });
+};*/
+
+export const getContent = () => {
+  return fetch(`${BASE_URL}/check`, {
+      method: 'GET',
+      headers: {
+          "Content-Type": "application/json",
+      },
+      credentials: 'include',
+  })
+    .then(res => {if (res.ok) {
+      return(res.json());
+  } else {
+      return res.json()
+          .then((err) => {
+              throw new Error(err.message);
+          })
+  }})
 };

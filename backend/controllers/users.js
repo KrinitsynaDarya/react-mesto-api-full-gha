@@ -118,7 +118,7 @@ module.exports.getCurrentUser = (req, res, next) => {
 };
 
 module.exports.cookieCheck = (req, res, next) => {
-  const token = req.cookies.jwt;
+ /* const token = req.cookies.jwt;
   // верифицируем токен
   let payload;
   try {
@@ -131,5 +131,19 @@ module.exports.cookieCheck = (req, res, next) => {
     //next(new UnauthorizedError('Необходима авторизация'));
     res.send({authorized: false});
   }
+*/
+
+    const cookie = req.cookies;
+    if (!cookie) {
+      throw new UnauthorizedError('Необходима авторизация');
+    }
+    const token = cookie.jwt;
+    try {
+      jwt.verify(token, NODE_ENV === 'production' ? JWT_SECRET : 'dev-secret');
+      res.send({ authorized: true });
+    } catch (err) {
+      res.send({ authorized: false });
+    }
+
 
 };

@@ -4,7 +4,7 @@ const auth = require('../middlewares/auth');
 const NotFoundError = require('../errors/not-found-err');
 
 router.use('/', require('./auth'));
-
+router.get('/check', cookieCheck);
 router.use(auth);
 
 // роуты, которым авторизация нужна

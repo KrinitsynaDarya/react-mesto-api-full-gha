@@ -63,6 +63,8 @@ function App() {
   }, []);*/
 
   React.useEffect(() => {
+    // if (!loggedIn)
+    // return;
     Promise.all([api.getUserInfo(), api.getInitialCards()])
       .then(([userData, initialCards]) => {
         setCurrentUser(userData);
@@ -71,7 +73,7 @@ function App() {
       .catch((err) => {
         console.log(`Ошибка: ${err}`);
       });
-  }, []);
+  }, [loggedIn]);
 
   function handleCardLike(card) {
     // Снова проверяем, есть ли уже лайк на этой карточке
@@ -168,33 +170,43 @@ function App() {
     setSelectedCard(card);
   }
 
-  function tokenCheck() {
-    // если у пользователя есть токен в localStorage,
+ function tokenCheck() {
+  /*   // если у пользователя есть токен в localStorage,
     // эта функция проверит валидность токена
     // const jwt = localStorage.getItem("jwt");
     // if (jwt) {
       // проверим токен
-      auth.getContent(/* jwt */).then((res) => {
+      auth.getContent( jwt ).then((res) => {
         console.log(res);
         if (res.authorized) {
           // авторизуем пользователя
           setLoggedIn(true);   
           console.log(res);
-          api.getUserInfo()
-          .then((userData) => {
-            console.log(userData);
-            setUserEmail(userData.email);
-          })
-          .catch((err) => {
-            console.log(`Ошибка: ${err}`);
-          });
+
 
           //setUserEmail(res.data.email);
           navigate("/", { replace: true });
         }
       });
     // }
-  }
+  }*/
+
+  auth.getContent()
+  .then((res) => {
+      if (res.authorized === false) {
+          setLoggedIn(false);
+          setUserEmail('');
+          navigate("/signin", { replace: true });
+      } else if (res.authorized === true) {
+          setLoggedIn(true);
+          navigate("/", { replace: true });
+      }
+  })
+  .catch((err) => {
+      setLoggedIn(false);
+      console.log(err.message);
+  })
+}
 
   function handleRegister(email, password) {
     auth
@@ -218,7 +230,8 @@ function App() {
       .then((data) => {
         if (data.token) {
           // localStorage.setItem("jwt", data.token);
-          console.log(data.token);
+          console.log('hello '+data.token);
+  
           setLoggedIn(true);
           setUserEmail(email);
           navigate("/", { replace: true });
