@@ -11,7 +11,7 @@ module.exports = (req, res, next) => {
   let payload;
   try {
     // попытаемся верифицировать токен
-    comsole.log(req.cookies);
+    console.log(req.cookies);
     payload = jwt.verify(token, JWT_SECRET);
   } catch (err) {
     // отправим ошибку, если не получилось
