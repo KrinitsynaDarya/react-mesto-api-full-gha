@@ -4,9 +4,9 @@ const {
   cookieCheck
 } = require('../controllers/users');
 const NotFoundError = require('../errors/not-found-err');
-
-router.use('/', require('./auth'));
 router.get('/check', cookieCheck);
+router.use('/', require('./auth'));
+
 router.use(auth);
 
 // роуты, которым авторизация нужна
