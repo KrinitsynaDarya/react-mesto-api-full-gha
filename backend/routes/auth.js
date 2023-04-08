@@ -3,6 +3,7 @@ const { Joi, celebrate } = require('celebrate');
 const {
   login,
   createUser,
+  cookieCheck
 } = require('../controllers/users');
 const { regExUrl } = require('../utils/constants');
 
@@ -26,5 +27,7 @@ router.post('/signup', celebrate({
 router.get('/signout', (req, res) => {
   res.clearCookie('jwt').send({ message: 'Выход' });
 });
+
+router.get('/check', cookieCheck);
 
 module.exports = router;
