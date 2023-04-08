@@ -6,6 +6,7 @@ const { JWT_SECRET = 'dev-secret' } = process.env;
 
 module.exports = (req, res, next) => {
   const token = req.cookies.jwt;
+  console.log('auth'+token);
   // верифицируем токен
   let payload;
   try {

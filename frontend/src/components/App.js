@@ -195,8 +195,7 @@ function App() {
   .then((res) => {
       if (res.authorized === false) {
           setLoggedIn(false);
-          setUserEmail('');
-          navigate("/signin", { replace: true });
+
       } else if (res.authorized === true) {
           setLoggedIn(true);
           navigate("/", { replace: true });
