@@ -19,7 +19,7 @@ module.exports.createCardOld = (req, res, next) => {
   // вернём записанные в базу данные
     .then((data) => {
       data.populate('owner')
-        .then((card) => { res.status(HTTP_STATUS_CREATED).send( card); })
+        .then((card) => { res.status(HTTP_STATUS_CREATED).send(card); })
         .catch(() => {
           next(new InternalServerError('Произошла ошибка'));
         });
@@ -65,7 +65,7 @@ module.exports.deleteCardById = (req, res, next) => {
         next(new ForbiddenError('Карточка с указанным _id не принадлежит текущему пользователю'));
       } /* 1. чтобы код дальше не выполнялся, ставим else */else {
         card.remove()
-          .then(() => res.send(card ))
+          .then(() => res.send(card))
           .catch(next); /* 2. добавили обработчик ошибок */
       }
     })
@@ -82,7 +82,7 @@ module.exports.addCardLike = (req, res, next) => {
   Card.findByIdAndUpdate(req.params.cardId, { $addToSet: { likes: req.user._id } }, { new: true })
     .populate(['owner', 'likes'])
     .orFail()
-    .then((card) => res.send(card ))
+    .then((card) => res.send(card))
     .catch((err) => {
       if (err.name === 'DocumentNotFoundError') {
         next(new NotFoundError('Передан несуществующий _id карточки'));
@@ -96,7 +96,7 @@ module.exports.removeCardLike = (req, res, next) => {
   Card.findByIdAndUpdate(req.params.cardId, { $pull: { likes: req.user._id } }, { new: true })
     .populate(['owner', 'likes'])
     .orFail()
-    .then((card) => res.send(card ))
+    .then((card) => res.send(card))
     .catch((err) => {
       if (err.name === 'DocumentNotFoundError') {
         next(new NotFoundError('Передан несуществующий _id карточки'));

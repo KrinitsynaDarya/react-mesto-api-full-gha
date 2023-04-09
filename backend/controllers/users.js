@@ -9,6 +9,7 @@ const BadRequestError = require("../errors/bad-request-err");
 const InternalServerError = require("../errors/internal-server-err");
 const NotFoundError = require("../errors/not-found-err");
 const ConflictError = require("../errors/conflict-err");
+const UnauthorizedError = require("../errors/unauthorized-err");
 
 module.exports.login = (req, res, next) => {
   const { email, password } = req.body;
@@ -167,7 +168,7 @@ module.exports.getCurrentUser = (req, res, next) => {
     });
 };
 
-module.exports.cookieCheck = (req, res, next) => {
+module.exports.cookieCheck = (req, res) => {
   /* const token = req.cookies.jwt;
   // верифицируем токен
   let payload;
