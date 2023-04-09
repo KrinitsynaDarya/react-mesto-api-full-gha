@@ -41,7 +41,7 @@ module.exports.createUser = (req, res, next) => {
       name, about, avatar, email, password: hash,
     }))
   // вернём записанные в базу данные
-    .then((user) => res.status(HTTP_STATUS_CREATED).send({ data: user.clean() }))
+    .then((user) => res.status(HTTP_STATUS_CREATED).send(user.clean()))
   // данные не записались, вернём ошибку
     .catch((err) => {
       if (err.code === 11000) {
@@ -55,7 +55,7 @@ module.exports.createUser = (req, res, next) => {
 module.exports.getUserById = (req, res, next) => {
   User.findById(req.params.userId)
     .orFail()
-    .then((user) => res.send({ data: user }))
+    .then((user) => res.send(user))
     .catch((err) => {
       if (err.name === 'DocumentNotFoundError') {
         next(new NotFoundError('Пользователь по указанному _id не найден'));
@@ -94,7 +94,7 @@ module.exports.updateUserAvatar = (req, res, next) => {
   // обновим аватар найденного по _id пользователя
   User.findByIdAndUpdate(req.user._id, { avatar }, { new: true, runValidators: true })
     .orFail()
-    .then((user) => res.send({ data: user }))
+    .then((user) => res.send(user))
     .catch((err) => {
       if (err.name === 'DocumentNotFoundError') {
         next(new NotFoundError('Пользователь по указанному _id не найден'));
