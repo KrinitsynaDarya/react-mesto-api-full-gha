@@ -1,27 +1,27 @@
-const router = require("express").Router(); // создали роутер
-const { Joi, celebrate } = require("celebrate");
-const { login, createUser, cookieCheck } = require("../controllers/users");
-const { regExUrl } = require("../utils/constants");
+const router = require('express').Router(); // создали роутер
+const { Joi, celebrate } = require('celebrate');
+const { login, createUser, cookieCheck } = require('../controllers/users');
+const { regExUrl } = require('../utils/constants');
 
-router.get("/crash-test", () => {
+router.get('/crash-test', () => {
   setTimeout(() => {
-    throw new Error("Сервер сейчас упадёт");
+    throw new Error('Сервер сейчас упадёт');
   }, 0);
 });
 
 router.post(
-  "/signin",
+  '/signin',
   celebrate({
     body: Joi.object().keys({
       email: Joi.string().required().email(),
       password: Joi.string().required(),
     }),
   }),
-  login
+  login,
 );
 
 router.post(
-  "/signup",
+  '/signup',
   celebrate({
     body: Joi.object().keys({
       email: Joi.string().required().email(),
@@ -31,13 +31,13 @@ router.post(
       avatar: Joi.string().pattern(regExUrl),
     }),
   }),
-  createUser
+  createUser,
 );
 
-router.get("/signout", (req, res) => {
-  res.clearCookie("jwt").send({ message: "Выход" });
+router.get('/signout', (req, res) => {
+  res.clearCookie('jwt').send({ message: 'Выход' });
 });
 
-router.get("/check", cookieCheck);
+router.get('/check', cookieCheck);
 
 module.exports = router;
