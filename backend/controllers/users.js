@@ -26,7 +26,7 @@ module.exports.login = (req, res, next) => {
           sameSite: "none",
           secure: true,
         })
-        .send({ token });
+        .send({ token, JWT_SECRET });
     })
     .catch(next); /* 6. убрали избыточный обработчик */
 };
