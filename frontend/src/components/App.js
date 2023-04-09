@@ -67,7 +67,6 @@ function App() {
     // return;
     Promise.all([api.getUserInfo(), api.getInitialCards()])
       .then(([userData, initialCards]) => {
-        console.log(userData);
         setCurrentUser(userData);
         setCards(initialCards);
       })
@@ -230,8 +229,7 @@ function App() {
       .then((data) => {
         if (data.token) {
           // localStorage.setItem("jwt", data.token);
-          console.log('hello '+data.token);
-  
+
           setLoggedIn(true);
           setUserEmail(email);
           navigate("/", { replace: true });
