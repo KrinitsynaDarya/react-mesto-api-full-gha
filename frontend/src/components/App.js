@@ -243,7 +243,18 @@ function App() {
 
   function handleLogout() {
     // localStorage.removeItem("jwt");
-    setLoggedIn(false);
+    
+    auth
+    .logout()
+    .then(() => {
+        setLoggedIn(false);
+        setUserEmail();
+        //navigate("/", { replace: true });
+      }
+    )
+    .catch((err) => {
+      console.log(err.message);
+    });
   }
 
   return (

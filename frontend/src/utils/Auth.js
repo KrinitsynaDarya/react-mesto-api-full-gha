@@ -34,6 +34,22 @@ export const authorize = (email, password) => {
   });
 };
 
+export const logout = () => {
+  return fetch(`${BASE_URL}/signout`, {
+    method: "GET",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+    },
+    credentials: 'include', // теперь куки посылаются вместе с запросом
+  }).then((response) => {
+    if (response.ok) {
+      return response.json();
+    }
+    return Promise.reject(`Ошибка: ${response.status}`);
+  });
+};
+
 /*export const getContent = () => {
   return fetch(`${BASE_URL}/check`, {
     method: "GET",
