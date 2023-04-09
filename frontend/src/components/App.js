@@ -67,7 +67,7 @@ function App() {
     // return;
     Promise.all([api.getUserInfo(), api.getInitialCards()])
       .then(([userData, initialCards]) => {
-        console.log(userData.data);
+        console.log(userData);
         setCurrentUser(userData);
         setCards(initialCards);
       })
