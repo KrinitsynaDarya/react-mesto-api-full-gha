@@ -50,22 +50,6 @@ export const logout = () => {
   });
 };
 
-/*export const getContent = () => {
-  return fetch(`${BASE_URL}/check`, {
-    method: "GET",
-    headers: {
-      // Accept: "application/json",
-      "Content-Type": "application/json",
-    },
-    credentials: 'include', 
-  })
-    .then((res) => res.json())
-    /*.then((data) => {
-      //console.log(data);
-      return data;
-    });
-};*/
-
 export const getContent = () => {
   return fetch(`${BASE_URL}/check`, {
       method: 'GET',
