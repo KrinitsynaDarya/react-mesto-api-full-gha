@@ -184,11 +184,7 @@ module.exports.cookieCheck = (req, res) => {
   }
 */
 
-  const cookie = req.cookies;
-  if (!cookie) {
-    throw new UnauthorizedError('Необходима авторизация');
-  }
-  const token = cookie.jwt;
+  const token = req.cookies.jwt;
   try {
     jwt.verify(token, JWT_SECRET);
     res.send({ authorized: true });
