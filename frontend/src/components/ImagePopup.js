@@ -1,9 +1,7 @@
 function ImagePopup({ onClose, card }) {
-  //if (!card) return null;
   return (
     <div
       className={`popup${
-        //!(Object.keys(card).length === 0 && card.constructor === Object)
         card ? " popup_opened" : ""
       }`}
       id="popup_view-photo"

@@ -19,7 +19,7 @@ import Register from "./Register";
 import Login from "./Login";
 import * as auth from "../utils/Auth";
 import { useNavigate } from "react-router-dom";
-//import { useHistory } from "react-router-dom";
+
 function App() {
   const [currentUser, setCurrentUser] = React.useState({});
   const [cards, setCards] = React.useState([]);
@@ -40,34 +40,11 @@ function App() {
     tokenCheck();
   }, []);
 
-  /*React.useEffect(() => {
-    api
-      .getUserInfo()
-      .then((userData) => {
-        setCurrentUser(userData);
-      })
-      .catch((err) => {
-        console.log(`Ошибка: ${err}`);
-      });
-  }, []);
-
   React.useEffect(() => {
-    api
-      .getInitialCards()
-      .then((initialCards) => {
-        setCards(initialCards);
-      })
-      .catch((err) => {
-        console.log(`Ошибка: ${err}`);
-      });
-  }, []);*/
-
-  React.useEffect(() => {
-    // if (!loggedIn)
-    // return;
     Promise.all([api.getUserInfo(), api.getInitialCards()])
       .then(([userData, initialCards]) => {
         setCurrentUser(userData);
+        setUserEmail(userData.email);
         setCards(initialCards);
       })
       .catch((err) => {
@@ -171,25 +148,6 @@ function App() {
   }
 
  function tokenCheck() {
-  /*   // если у пользователя есть токен в localStorage,
-    // эта функция проверит валидность токена
-    // const jwt = localStorage.getItem("jwt");
-    // if (jwt) {
-      // проверим токен
-      auth.getContent( jwt ).then((res) => {
-        console.log(res);
-        if (res.authorized) {
-          // авторизуем пользователя
-          setLoggedIn(true);   
-          console.log(res);
-
-
-          //setUserEmail(res.data.email);
-          navigate("/", { replace: true });
-        }
-      });
-    // }
-  }*/
 
   auth.getContent()
   .then((res) => {
@@ -228,8 +186,6 @@ function App() {
       .authorize(email, password)
       .then((data) => {
         if (data.token) {
-          // localStorage.setItem("jwt", data.token);
-
           setLoggedIn(true);
           setUserEmail(email);
           navigate("/", { replace: true });
@@ -242,14 +198,11 @@ function App() {
   }
 
   function handleLogout() {
-    // localStorage.removeItem("jwt");
-    
     auth
     .logout()
     .then(() => {
         setLoggedIn(false);
         setUserEmail();
-        //navigate("/", { replace: true });
       }
     )
     .catch((err) => {
