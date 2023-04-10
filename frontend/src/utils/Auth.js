@@ -74,12 +74,10 @@ export const getContent = () => {
       },
       credentials: 'include',
   })
-    .then(res => {if (res.ok) {
-      return(res.json());
-  } else {
-      return res.json()
-          .then((err) => {
-              throw new Error(err.message);
-          })
-  }})
+    .then((response) => {
+      if (response.ok) {
+        return response.json();
+      }
+      return Promise.reject(`Ошибка: ${response.status}`);
+    });
 };
