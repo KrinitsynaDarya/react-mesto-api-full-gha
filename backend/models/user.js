@@ -2,7 +2,7 @@
 const validator = require('validator');
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs'); // импортируем bcrypt
-const { regExUrl } = require('../utils/constants');
+const { REGEX_URL } = require('../utils/constants');
 const UnauthorizedError = require('../errors/unauthorized-err');
 
 // Опишем схему:
@@ -24,7 +24,7 @@ const userSchema = new mongoose.Schema({
     default: 'https://pictures.s3.yandex.net/resources/jacques-cousteau_1604399756.png',
     validate: {
       validator(v) {
-        return regExUrl.test(v);
+        return REGEX_URL.test(v);
       },
       message: 'Невалидный URL',
     },

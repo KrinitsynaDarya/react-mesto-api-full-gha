@@ -1,6 +1,6 @@
 const router = require('express').Router(); // создали роутер
 const { celebrate, Joi } = require('celebrate');
-const { regExUrl } = require('../utils/constants');
+const { REGEX_URL } = require('../utils/constants');
 
 // контроллеры и роуты для карточек
 const {
@@ -22,7 +22,7 @@ router.delete('/:cardId', celebrate({
 router.post('/', celebrate({
   body: Joi.object().keys({
     name: Joi.string().required().min(2).max(30),
-    link: Joi.string().required().pattern(regExUrl),
+    link: Joi.string().required().pattern(REGEX_URL),
   }),
 }), createCard); // создаёт карточку
 

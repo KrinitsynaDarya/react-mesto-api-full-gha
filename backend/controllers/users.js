@@ -25,7 +25,7 @@ module.exports.login = (req, res, next) => {
           sameSite: true,
           // secure: true,
         })
-        .end();
+        .send();
     })
     .catch(next); /* 6. убрали избыточный обработчик */
 };
