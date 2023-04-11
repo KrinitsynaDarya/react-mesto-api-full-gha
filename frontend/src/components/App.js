@@ -36,9 +36,9 @@ function App() {
 
   const navigate = useNavigate();
 
-  React.useEffect(() => {
+  /* React.useEffect(() => {
     tokenCheck();
-  }, []);
+  }, []); */
 
   React.useEffect(() => {
     if (loggedIn === false)
@@ -149,7 +149,7 @@ function App() {
     setSelectedCard(card);
   }
 
- function tokenCheck() {
+ /* function tokenCheck() {
 
   auth.getContent()
   .then((res) => {
@@ -165,7 +165,7 @@ function App() {
       setLoggedIn(false);
       console.log(err.message);
   })
-}
+} */
 
   function handleRegister(email, password) {
     auth

@@ -6,7 +6,6 @@ const { JWT_SECRET = 'dev-secret' } = process.env;
 const User = require('../models/user');
 const { HTTP_STATUS_CREATED } = require('../utils/constants');
 const BadRequestError = require('../errors/bad-request-err');
-const InternalServerError = require('../errors/internal-server-err');
 const NotFoundError = require('../errors/not-found-err');
 const ConflictError = require('../errors/conflict-err');
 
@@ -26,7 +25,7 @@ module.exports.login = (req, res, next) => {
           sameSite: true,
           // secure: true,
         })
-        .send({ token });
+        .end();
     })
     .catch(next); /* 6. убрали избыточный обработчик */
 };
@@ -57,7 +56,7 @@ module.exports.createUser = (req, res, next) => {
       ) {
         next(new BadRequestError(err.message));
       } else {
-        next(new InternalServerError('Произошла ошибка'));
+        next(err);
       }
     });
 };
@@ -78,7 +77,7 @@ module.exports.getUserById = (req, res, next) => {
           ),
         );
       } else {
-        next(new InternalServerError('Произошла ошибка'));
+        next(err);
       }
     });
 };
@@ -87,8 +86,8 @@ module.exports.getUsers = (req, res, next) => {
   // найти вообще всех
   User.find({})
     .then((users) => res.send(users))
-    .catch(() => {
-      next(new InternalServerError('Произошла ошибка'));
+    .catch((err) => {
+      next(err);
     });
 };
 
@@ -114,7 +113,7 @@ module.exports.updateUser = (req, res, next) => {
           ),
         );
       } else {
-        next(new InternalServerError('Произошла ошибка'));
+        next(err);
       }
     });
 };
@@ -141,7 +140,7 @@ module.exports.updateUserAvatar = (req, res, next) => {
           ),
         );
       } else {
-        next(new InternalServerError('Произошла ошибка'));
+        next(err);
       }
     });
 };
@@ -153,16 +152,8 @@ module.exports.getCurrentUser = (req, res, next) => {
     .catch((err) => {
       if (err.name === 'DocumentNotFoundError') {
         next(new NotFoundError('Пользователь по указанному _id не найден'));
-      } /* 11. чтобы код дальше не выполнялся, ставим else */ else if (
-        err.name === 'CastError'
-      ) {
-        next(
-          new BadRequestError(
-            'Передан некорректный _id при поиске пользователя',
-          ),
-        );
-      } else {
-        next(new InternalServerError('Произошла ошибка'));
+      } /* 11. чтобы код дальше не выполнялся, ставим else */ else {
+        next(err);
       }
     });
 };
