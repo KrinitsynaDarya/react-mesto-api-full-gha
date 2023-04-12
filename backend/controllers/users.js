@@ -1,5 +1,6 @@
 const bcrypt = require('bcryptjs'); // импортируем bcrypt
 const jwt = require('jsonwebtoken');
+const mongoose = require('mongoose');
 
 const { JWT_SECRET = 'dev-secret' } = process.env;
 // импортируем модель
@@ -23,11 +24,10 @@ module.exports.login = (req, res, next) => {
           maxAge: 3600 * 24 * 7,
           httpOnly: true,
           sameSite: true,
-          // secure: true,
         })
-        .send({});
+        .send({ message: 'Успешная авторизация' });
     })
-    .catch(next); /* 6. убрали избыточный обработчик */
+    .catch(next);
 };
 
 module.exports.createUser = (req, res, next) => {
@@ -51,13 +51,9 @@ module.exports.createUser = (req, res, next) => {
     .catch((err) => {
       if (err.code === 11000) {
         next(new ConflictError('Пользователь с данным email уже существует'));
-      } /* 7. чтобы код дальше не выполнялся, ставим else */ else if (
-        err.name === 'ValidationError'
-      ) {
+      } else if (err instanceof mongoose.Error.ValidationError) {
         next(new BadRequestError(err.message));
-      } else {
-        next(err);
-      }
+      } else { next(err); }
     });
 };
 
@@ -66,15 +62,11 @@ const getUser = (id, res, next) => {
     .orFail()
     .then((user) => res.send(user))
     .catch((err) => {
-      if (err.name === 'DocumentNotFoundError') {
+      if (err instanceof mongoose.Error.DocumentNotFoundError) {
         next(new NotFoundError('Пользователь по указанному _id не найден'));
-      } /* 8. чтобы код дальше не выполнялся, ставим else */ else if (
-        err.name === 'CastError'
-      ) {
+      } else if (err instanceof mongoose.Error.CastError) {
         next(new BadRequestError('Передан некорректный _id при поиске пользователя'));
-      } else {
-        next(err);
-      }
+      } else { next(err); }
     });
 };
 
@@ -106,19 +98,11 @@ module.exports.updateUser = (req, res, next) => {
     .orFail()
     .then((user) => res.send(user))
     .catch((err) => {
-      if (err.name === 'DocumentNotFoundError') {
+      if (err instanceof mongoose.Error.DocumentNotFoundError) {
         next(new NotFoundError('Пользователь по указанному _id не найден'));
-      } /* 9. чтобы код дальше не выполнялся, ставим else */ else if (
-        err.name === 'ValidationError'
-      ) {
-        next(
-          new BadRequestError(
-            'Переданы некорректные данные при обновлении профиля',
-          ),
-        );
-      } else {
-        next(err);
-      }
+      } else if (err instanceof mongoose.Error.ValidationError) {
+        next(new BadRequestError('Переданы некорректные данные при обновлении профиля'));
+      } else { next(err); }
     });
 };
 
@@ -133,22 +117,15 @@ module.exports.updateUserAvatar = (req, res, next) => {
     .orFail()
     .then((user) => res.send(user))
     .catch((err) => {
-      if (err.name === 'DocumentNotFoundError') {
+      if (err instanceof mongoose.Error.DocumentNotFoundError) {
         next(new NotFoundError('Пользователь по указанному _id не найден'));
-      } /* 10. чтобы код дальше не выполнялся, ставим else */ else if (
-        err.name === 'ValidationError'
-      ) {
-        next(
-          new BadRequestError(
-            'Переданы некорректные данные при обновлении аватара',
-          ),
-        );
-      } else {
-        next(err);
-      }
+      } else if (err instanceof mongoose.Error.ValidationError) {
+        next(new BadRequestError('Переданы некорректные данные при обновлении аватара'));
+      } else { next(err); }
     });
 };
 
+/*
 module.exports.cookieCheck = (req, res) => {
   const token = req.cookies.jwt;
   try {
@@ -157,4 +134,4 @@ module.exports.cookieCheck = (req, res) => {
   } catch (err) {
     res.send({ authorized: false });
   }
-};
+}; */
