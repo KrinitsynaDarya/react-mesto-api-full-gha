@@ -1,5 +1,5 @@
 const router = require('express').Router(); // создали роутер
-const { login, createUser, cookieCheck } = require('../controllers/users');
+const { login, createUser } = require('../controllers/users');
 const { signinValidator, signupValidator } = require('../middlewares/validator');
 
 router.get('/crash-test', () => {
@@ -24,6 +24,6 @@ router.get('/signout', (req, res) => {
   res.clearCookie('jwt').send({ message: 'Выход' });
 });
 
-router.get('/check', cookieCheck);
+// router.get('/check', cookieCheck);
 
 module.exports = router;
