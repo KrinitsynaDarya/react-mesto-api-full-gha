@@ -1,7 +1,6 @@
 const router = require('express').Router(); // создали роутер
-const { Joi, celebrate } = require('celebrate');
 const { login, createUser, cookieCheck } = require('../controllers/users');
-const { REGEX_URL } = require('../utils/constants');
+const { signinValidator, signupValidator } = require('../middlewares/validator');
 
 router.get('/crash-test', () => {
   setTimeout(() => {
@@ -11,26 +10,13 @@ router.get('/crash-test', () => {
 
 router.post(
   '/signin',
-  celebrate({
-    body: Joi.object().keys({
-      email: Joi.string().required().email(),
-      password: Joi.string().required(),
-    }),
-  }),
+  signinValidator,
   login,
 );
 
 router.post(
   '/signup',
-  celebrate({
-    body: Joi.object().keys({
-      email: Joi.string().required().email(),
-      password: Joi.string().required(),
-      name: Joi.string().min(2).max(30),
-      about: Joi.string().min(2).max(30),
-      avatar: Joi.string().pattern(REGEX_URL),
-    }),
-  }),
+  signupValidator,
   createUser,
 );
 

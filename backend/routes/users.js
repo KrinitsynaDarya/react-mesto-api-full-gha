@@ -1,6 +1,5 @@
 const router = require('express').Router(); // создали роутер
-const { celebrate, Joi } = require('celebrate');
-const { REGEX_URL } = require('../utils/constants');
+const { getUserByIdValidator, updateUserValidator, updateUserAvatarValidator } = require('../middlewares/validator');
 
 // контроллеры и роуты для пользователей
 const {
@@ -13,24 +12,9 @@ const {
 
 router.get('/', getUsers); // возвращает всех пользователей
 router.get('/me', getCurrentUser); // возвращает текущего пользователя
-router.get('/:userId', celebrate({
-  // валидируем параметры
-  params: Joi.object().keys({
-    /* 18. Id валидируем как hex последовательность длиной 24 символа */
-    userId: Joi.string().length(24).hex().required(),
-  }),
-}), getUserById); // возвращает пользователя по _id
+router.get('/:userId', getUserByIdValidator, getUserById); // возвращает пользователя по _id
 
-router.patch('/me', celebrate({
-  body: Joi.object().keys({
-    name: Joi.string().min(2).max(30).required(),
-    about: Joi.string().min(2).max(30).required(),
-  }),
-}), updateUser); // обновляет профиль
-router.patch('/me/avatar', celebrate({
-  body: Joi.object().keys({
-    avatar: Joi.string().pattern(REGEX_URL).required(),
-  }),
-}), updateUserAvatar); // обновляет аватар
+router.patch('/me', updateUserValidator, updateUser); // обновляет профиль
+router.patch('/me/avatar', updateUserAvatarValidator, updateUserAvatar); // обновляет аватар
 
 module.exports = router;

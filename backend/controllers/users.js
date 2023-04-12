@@ -61,8 +61,8 @@ module.exports.createUser = (req, res, next) => {
     });
 };
 
-module.exports.getUserById = (req, res, next) => {
-  User.findById(req.params.userId)
+const getUser = (id, res, next) => {
+  User.findById(id)
     .orFail()
     .then((user) => res.send(user))
     .catch((err) => {
@@ -71,15 +71,19 @@ module.exports.getUserById = (req, res, next) => {
       } /* 8. чтобы код дальше не выполнялся, ставим else */ else if (
         err.name === 'CastError'
       ) {
-        next(
-          new BadRequestError(
-            'Передан некорректный _id при поиске пользователя',
-          ),
-        );
+        next(new BadRequestError('Передан некорректный _id при поиске пользователя'));
       } else {
         next(err);
       }
     });
+};
+
+module.exports.getUserById = (req, res, next) => {
+  getUser(req.params.userId, res, next);
+};
+
+module.exports.getCurrentUser = (req, res, next) => {
+  getUser(req.user._id, res, next);
 };
 
 module.exports.getUsers = (req, res, next) => {
@@ -140,19 +144,6 @@ module.exports.updateUserAvatar = (req, res, next) => {
           ),
         );
       } else {
-        next(err);
-      }
-    });
-};
-
-module.exports.getCurrentUser = (req, res, next) => {
-  User.findById(req.user._id)
-    .orFail()
-    .then((user) => res.send(user))
-    .catch((err) => {
-      if (err.name === 'DocumentNotFoundError') {
-        next(new NotFoundError('Пользователь по указанному _id не найден'));
-      } /* 11. чтобы код дальше не выполнялся, ставим else */ else {
         next(err);
       }
     });
