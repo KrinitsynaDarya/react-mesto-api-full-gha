@@ -87,12 +87,11 @@ module.exports.getUsers = (req, res, next) => {
     });
 };
 
-module.exports.updateUser = (req, res, next) => {
-  const { name, about } = req.body;
-  // обновим имя найденного по _id пользователя
+const updateUser = (userProps, req, res, next) => {
+  // обновим свойства найденного по _id пользователя
   User.findByIdAndUpdate(
     req.user._id,
-    { name, about },
+    userProps,
     { new: true, runValidators: true },
   )
     .orFail()
@@ -106,23 +105,16 @@ module.exports.updateUser = (req, res, next) => {
     });
 };
 
+module.exports.updateUser = (req, res, next) => {
+  const { name, about } = req.body;
+  // обновим имя найденного по _id пользователя
+  updateUser({ name, about }, req, res, next);
+};
+
 module.exports.updateUserAvatar = (req, res, next) => {
   const { avatar } = req.body;
   // обновим аватар найденного по _id пользователя
-  User.findByIdAndUpdate(
-    req.user._id,
-    { avatar },
-    { new: true, runValidators: true },
-  )
-    .orFail()
-    .then((user) => res.send(user))
-    .catch((err) => {
-      if (err instanceof mongoose.Error.DocumentNotFoundError) {
-        next(new NotFoundError('Пользователь по указанному _id не найден'));
-      } else if (err instanceof mongoose.Error.ValidationError) {
-        next(new BadRequestError('Переданы некорректные данные при обновлении аватара'));
-      } else { next(err); }
-    });
+  updateUser({ avatar }, req, res, next);
 };
 
 /*
