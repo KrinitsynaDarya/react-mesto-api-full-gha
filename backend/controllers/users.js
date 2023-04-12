@@ -116,14 +116,3 @@ module.exports.updateUserAvatar = (req, res, next) => {
   // обновим аватар найденного по _id пользователя
   updateUser({ avatar }, req, res, next);
 };
-
-/*
-module.exports.cookieCheck = (req, res) => {
-  const token = req.cookies.jwt;
-  try {
-    jwt.verify(token, JWT_SECRET);
-    res.send({ authorized: true });
-  } catch (err) {
-    res.send({ authorized: false });
-  }
-}; */

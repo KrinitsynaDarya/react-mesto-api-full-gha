@@ -36,10 +36,6 @@ function App() {
 
   const navigate = useNavigate();
 
-  /* React.useEffect(() => {
-    tokenCheck();
-  }, []); */
-
   React.useEffect(() => {
     if (loggedIn === false)
       return;
@@ -148,24 +144,6 @@ function App() {
   function handleCardClick(card) {
     setSelectedCard(card);
   }
-
- /* function tokenCheck() {
-
-  auth.getContent()
-  .then((res) => {
-      if (res.authorized === false) {
-          setLoggedIn(false);
-
-      } else if (res.authorized === true) {
-          setLoggedIn(true);
-          navigate("/", { replace: true });
-      }
-  })
-  .catch((err) => {
-      setLoggedIn(false);
-      console.log(err.message);
-  })
-} */
 
   function handleRegister(email, password) {
     auth
