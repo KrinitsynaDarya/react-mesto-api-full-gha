@@ -164,12 +164,10 @@ function App() {
   function handleLogin(email, password) {
     auth
       .authorize(email, password)
-      .then((data) => {
-        if (data.token) {
+      .then(() => {
           setLoggedIn(true);
           setUserEmail(email);
           navigate("/", { replace: true });
-        }
       })
       .catch(() => {
         setIsSucces(false);
