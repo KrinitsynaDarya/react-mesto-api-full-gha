@@ -53,7 +53,9 @@ module.exports.createUser = (req, res, next) => {
         next(new ConflictError('Пользователь с данным email уже существует'));
       } else if (err instanceof mongoose.Error.ValidationError) {
         next(new BadRequestError(err.message));
-      } else { next(err); }
+      } else {
+        next(err);
+      }
     });
 };
 
@@ -65,8 +67,14 @@ const getUser = (id, res, next) => {
       if (err instanceof mongoose.Error.DocumentNotFoundError) {
         next(new NotFoundError('Пользователь по указанному _id не найден'));
       } else if (err instanceof mongoose.Error.CastError) {
-        next(new BadRequestError('Передан некорректный _id при поиске пользователя'));
-      } else { next(err); }
+        next(
+          new BadRequestError(
+            'Передан некорректный _id при поиске пользователя',
+          ),
+        );
+      } else {
+        next(err);
+      }
     });
 };
 
@@ -89,19 +97,24 @@ module.exports.getUsers = (req, res, next) => {
 
 const updateUser = (userProps, req, res, next) => {
   // обновим свойства найденного по _id пользователя
-  User.findByIdAndUpdate(
-    req.user._id,
-    userProps,
-    { new: true, runValidators: true },
-  )
+  User.findByIdAndUpdate(req.user._id, userProps, {
+    new: true,
+    runValidators: true,
+  })
     .orFail()
     .then((user) => res.send(user))
     .catch((err) => {
       if (err instanceof mongoose.Error.DocumentNotFoundError) {
         next(new NotFoundError('Пользователь по указанному _id не найден'));
       } else if (err instanceof mongoose.Error.ValidationError) {
-        next(new BadRequestError('Переданы некорректные данные при обновлении профиля'));
-      } else { next(err); }
+        next(
+          new BadRequestError(
+            'Переданы некорректные данные при обновлении профиля',
+          ),
+        );
+      } else {
+        next(err);
+      }
     });
 };
 
@@ -115,4 +128,16 @@ module.exports.updateUserAvatar = (req, res, next) => {
   const { avatar } = req.body;
   // обновим аватар найденного по _id пользователя
   updateUser({ avatar }, req, res, next);
+};
+
+module.exports.cookieCheck = (req, res) => {
+  const token = req.cookies.jwt;
+
+  try {
+    jwt.verify(token, JWT_SECRET);
+
+    res.send({ authorized: true });
+  } catch (err) {
+    res.send({ authorized: false });
+  }
 };
