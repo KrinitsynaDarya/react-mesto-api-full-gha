@@ -50,7 +50,7 @@ export const logout = () => {
   });
 };
 
-/* export const getContent = () => {
+export const getContent = () => {
   return fetch(`${BASE_URL}/check`, {
       method: 'GET',
       headers: {
@@ -64,4 +64,4 @@ export const logout = () => {
       }
       return Promise.reject(`Ошибка: ${response.status}`);
     });
-}; */
+};

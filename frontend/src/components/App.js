@@ -37,8 +37,7 @@ function App() {
   const navigate = useNavigate();
 
   React.useEffect(() => {
-    if (loggedIn === false)
-      return;
+    if (loggedIn === false) return;
     Promise.all([api.getUserInfo(), api.getInitialCards()])
       .then(([userData, initialCards]) => {
         setCurrentUser(userData);
@@ -50,6 +49,26 @@ function App() {
       });
   }, [loggedIn]);
 
+  React.useEffect(() => {
+    tokenCheck();
+  }, []);
+
+  function tokenCheck() {
+    auth
+      .getContent()
+      .then((res) => {
+        if (res.authorized === false) {
+          setLoggedIn(false);
+        } else if (res.authorized === true) {
+          setLoggedIn(true);
+          navigate("/", { replace: true });
+        }
+      })
+      .catch((err) => {
+        setLoggedIn(false);
+        console.log(err.message);
+      });
+  }
   function handleCardLike(card) {
     // Снова проверяем, есть ли уже лайк на этой карточке
     const isLiked = card.likes.some((i) => i._id === currentUser._id);
@@ -165,9 +184,9 @@ function App() {
     auth
       .authorize(email, password)
       .then(() => {
-          setLoggedIn(true);
-          setUserEmail(email);
-          navigate("/", { replace: true });
+        setLoggedIn(true);
+        setUserEmail(email);
+        navigate("/", { replace: true });
       })
       .catch(() => {
         setIsSucces(false);
@@ -177,15 +196,14 @@ function App() {
 
   function handleLogout() {
     auth
-    .logout()
-    .then(() => {
+      .logout()
+      .then(() => {
         setLoggedIn(false);
         setUserEmail();
-      }
-    )
-    .catch((err) => {
-      console.log(err.message);
-    });
+      })
+      .catch((err) => {
+        console.log(err.message);
+      });
   }
 
   return (
