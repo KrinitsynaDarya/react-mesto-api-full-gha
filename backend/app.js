@@ -6,7 +6,6 @@ const { errors } = require('celebrate');
 const routes = require('./routes/index');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 const cors = require('./middlewares/cors');
-// var cors = require('cors');
 
 // Слушаем 3000 порт
 const { PORT = 3000 } = process.env;
@@ -22,8 +21,6 @@ mongoose.connect('mongodb://127.0.0.1:27017/mestodb', {
   autoIndex: true,
 });
 
-// app.use(cors);
-
 app.use(requestLogger); // подключаем логгер запросов
 app.use(routes);
 app.use(errorLogger); // подключаем логгер ошибок
@@ -31,7 +28,7 @@ app.use(errorLogger); // подключаем логгер ошибок
 // обработчики ошибок
 app.use(errors()); // обработчик ошибок celebrate
 
-// наш централизованный обработчик
+// централизованный обработчик
 app.use((err, req, res, next) => {
   // если у ошибки нет статуса, выставляем 500
   const { statusCode = 500, message } = err;
